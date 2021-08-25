@@ -1,12 +1,39 @@
 import empleados.*
 
-test "sueldo de Baigorria y de Galván" {
-	baigorria.venderEmpanadas(10)
-	baigorria.venderEmpanadas(20)
-	assert.equals(450, baigorria.sueldo())
-	baigorria.venderEmpanadas(10)
-	assert.equals(600, baigorria.sueldo())
-	assert.equals(15000, galvan.sueldo())
-	galvan.sueldo(12000)
-	assert.equals(12000, galvan.sueldo())
+test "sueldo y venta de empanadas"{
+	baigorria.venderEmpanadas(500)
+	assert.equals(7500, baigorria.sueldo())
+	galvan.sueldo(20000)
+	baigorria.venderEmpanadas(300)
+	gimenez.pagarA(baigorria)
+	assert.equals(288000, gimenez.dinero())
+	gimenez.pagarA(galvan)
+	assert.equals(268000, gimenez.dinero())
 }
+
+test "baigorria vende 15 empanadas y cobra sueldo, despues vende 5 mas y cobra de nuevo"{
+	baigorria.venderEmpanadas(15)
+	gimenez.pagarA(baigorria)
+	baigorria.venderEmpanadas(5)
+	gimenez.pagarA(baigorria)
+	assert.equals(300, baigorria.totalCobrado())
+}
+
+test "deudas y sueldos"{
+	galvan.gastar(4000)
+	assert.equals(4000, galvan.totalDeuda())
+	assert.equals(0, galvan.totalDinero())
+	galvan.gastar(8000)
+	assert.equals(12000, galvan.totalDeuda())
+	assert.equals(0, galvan.totalDinero())
+	gimenez.pagarA(galvan)
+	assert.equals(0, galvan.totalDeuda())
+	assert.equals(3000, galvan.totalDinero())
+	galvan.gastar(25000)
+	assert.equals(22000, galvan.totalDeuda())
+	assert.equals(0, galvan.totalDinero())
+	gimenez.pagarA(galvan)
+	assert.equals(7000, galvan.totalDeuda())
+	assert.equals(0, galvan.totalDinero())
+}
+
